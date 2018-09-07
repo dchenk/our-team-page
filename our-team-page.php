@@ -6,20 +6,20 @@ Description: List the thumbnails for posts of type "our_team" (slug "our-team").
 Version: 1.0
 Author: Dmitriy Cherchenko (Wider Webs)
 Author URI: https://widerwebs.com
-License: Private
+License: GPL2
 */
 
 define('OUR_TEAM_TYPE', 'our_team');
 
-function ourTeamPage() {
+function ourTeamPage(): string {
+	$out = '';
 	$q = new WP_Query(['post_type' => OUR_TEAM_TYPE, 'orderby' => 'date', 'posts_per_page' => -1]);
 	if (!$q->have_posts()) {
-		return '';
+		return $out;
 	}
-	$out = '<div class="our-team-member">';
 	while ($q->have_posts()) {
 		$q->the_post();
-		$out .= '<a href="' . get_permalink() . '">';
+		$out .= '<div class="our-team-member"><a href="' . get_permalink() . '">';
 		$out .= get_the_post_thumbnail(null, 'medium', ['class' => 'aligncenter']);
 		$out .= '</a><h4><a href="' . get_permalink() . '">';
 		$out .= get_the_title() . '</a></h4></div>';
